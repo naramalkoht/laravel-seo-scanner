@@ -49,7 +49,6 @@ trait HasSeoScore
 
         DB::table('seo_scores')
             ->insert([
-                'seo_scan_id' => $this->scan->id,
                 'url' => $url,
                 'model_type' => $model ? $model->getMorphClass() : null,
                 'model_id' => $model ? $model->id : null,
