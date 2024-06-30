@@ -13,6 +13,11 @@ trait HasSeoScore
 {
     public function seoScore(): SeoScore
     {
+        return Seo::check(url: $this->url);
+    }
+
+    public function seoScoreForModel(): SeoScore
+    {
         $seo = Seo::check(url: $this->url);
         $this->saveScoreToDatabase($seo,$this->url , $this);
         return $seo;
@@ -30,12 +35,12 @@ trait HasSeoScore
 
     public function getCurrentScore(): int
     {
-        return $this->seoScore()->getScore();
+        return $this->seoScoreForModel()->getScore();
     }
 
     public function getCurrentScoreDetails(): array
     {
-        return $this->seoScore()->getScoreDetails();
+        return $this->seoScoreForModel()->getScoreDetails();
     }
     private function saveScoreToDatabase(SeoScore $seo, string $url, ?object $model = null): void
     {
