@@ -52,18 +52,16 @@ trait HasSeoScore
         })->toArray();
 
 
-        DB::table('seo_scores')
-            ->insert([
-                'url' => $url,
-                'model_type' => $model ? $model->getMorphClass() : null,
-                'model_id' => $model ? $model->id : null,
-                'score' => $score,
-                'checks' => json_encode([
-                    'failed' => $seo->getFailedChecks(),
-                    'successful' => $seo->getSuccessfulChecks(),
-                ]),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+        $seoRecord = SeoScoreModel::updateOrCreate([
+            'model_id' => $model ? $model->id : null,
+        ],['url' => $url,
+            'model_type' => $model ? $model->getMorphClass() : null,
+            'model_id' => $model ? $model->id : null,
+            'score' => $score,
+            'checks' => json_encode([
+                'failed' => $seo->getFailedChecks(),
+                'successful' => $seo->getSuccessfulChecks(),
+            ]),
+        ]);
     }
 }
