@@ -13,7 +13,9 @@ trait HasSeoScore
 {
     public function seoScore(): SeoScore
     {
-        return Seo::check(url: $this->url);
+        $seo = Seo::check(url: $this->url);
+        $this->saveScoreToDatabase($seo,$this->url , $this);
+        return $seo;
     }
 
     public function seoScores(): MorphMany
@@ -28,16 +30,12 @@ trait HasSeoScore
 
     public function getCurrentScore(): int
     {
-        $seo = $this->seoScore();
-        $this->saveScoreToDatabase($seo,$this->url , $this);
-        return $seo->getScore();
+        return $this->seoScore()->getScore();
     }
 
     public function getCurrentScoreDetails(): array
     {
-        $seo = $this->seoScore();
-        $this->saveScoreToDatabase($seo,$this->url , $this);
-        return $seo->getScoreDetails();
+        return $this->seoScore()->getScoreDetails();
     }
     private function saveScoreToDatabase(SeoScore $seo, string $url, ?object $model = null): void
     {
