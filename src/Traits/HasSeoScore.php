@@ -46,7 +46,6 @@ trait HasSeoScore
             return get_class($check);
         })->toArray();
 
-        $this->failedChecks = array_unique(array_merge($this->failedChecks, array_values($failedChecks)));
 
         DB::table('seo_scores')
             ->insert([
