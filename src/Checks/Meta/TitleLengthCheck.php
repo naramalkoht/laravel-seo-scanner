@@ -58,7 +58,7 @@ class TitleLengthCheck implements Check
             return false;
         }
 
-        if (strlen($content) > $this->expectedValue) {
+        if (mb_strlen($content,"UTF-8") > $this->expectedValue) {
             $this->failureReason = __('failed.content.title_length', [
                 'actualValue' => strlen($content),
                 'expectedValue' => $this->expectedValue,
